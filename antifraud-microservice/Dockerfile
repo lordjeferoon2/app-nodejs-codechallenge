@@ -12,7 +12,7 @@ FROM eclipse-temurin:21-jdk
 
 WORKDIR /app
 
-COPY --from=builder /app/target/transaction-microservices-0.0.1.jar app.jar
+COPY --from=builder /app/target/antifraud-microservice-0.0.1.jar app.jar
 
 EXPOSE 8081
 
