@@ -9,6 +9,8 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: postgres
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
 
   pgadmin:
     image: dpage/pgadmin4:8
@@ -64,5 +66,36 @@ services:
       KAFKA_TOPIC_TRANSACTION_CREATED: transaction.created
       KAFKA_TOPIC_TRANSACTION_UPDATED: transaction.updated
 
+  antifraud-microservice:
+    build:
+      context: ./antifraud-microservice
+      dockerfile: Dockerfile
+    container_name: antifraud-microservice
+    depends_on:
+      - transaction-microservice
+      - kafka
+    ports:
+      - "8082:8082"
+    environment:
+      SERVER_PORT: 8082
+      SPRING_APPLICATION_NAME: antifraud-microservice
+      KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      KAFKA_CONSUMER_GROUP_ID: yape-group
+      KAFKA_TOPIC_TRANSACTION_CREATED: transaction.created
+      KAFKA_TOPIC_TRANSACTION_UPDATED: transaction.updated
+
+  yape-microservice:
+    build:
+      context: ./yape-microservice
+      dockerfile: Dockerfile
+    container_name: yape-microservice
+    depends_on:
+      - transaction-microservice
+    ports:
+      - "4300:80"
+    environment:
+      NODE_ENV: production
+
 volumes:
+  postgres-data:
   pgadmin-data:
