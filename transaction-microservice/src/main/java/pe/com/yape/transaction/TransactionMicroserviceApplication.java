@@ -30,15 +30,15 @@ public class TransactionMicroserviceApplication {
 			accountRepository.deleteAll();
 
 			AccountEntity account1 = AccountEntity.builder()
-					.firstName("Juan")
-					.lastName("Perez")
+					.firstName("Juan Ramón")
+					.lastName("Perez Lopez")
 					.balance(new BigDecimal("1000.00"))
 					.createdAt(LocalDateTime.now())
 					.build();
 
 			AccountEntity account2 = AccountEntity.builder()
-					.firstName("Karla")
-					.lastName("Gomez")
+					.firstName("Karla Luana")
+					.lastName("Gomez Santiago")
 					.balance(new BigDecimal("2000.00"))
 					.createdAt(LocalDateTime.now())
 					.build();
